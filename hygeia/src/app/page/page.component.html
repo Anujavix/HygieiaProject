@@ -1,0 +1,36 @@
+<!--<form id="form1">
+  <div ng-app="">  
+  <input ng-model="formName" type="text" name="Name" placeholder="Name" >
+  <input ng-model="formAge" type="text" name="Age" placeholder="Age" >
+  <button name="submit" type="submit" onclick="registerForm()">Submit</button>
+
+  <p ng-bind="formName">
+
+    </p>
+    <p ng-bind="formAge">
+    
+    </p>
+
+</div>
+</form>-->
+
+<form action="#">
+  <div class="form-group">
+   
+    <input #userName type="text" class="form-control" 
+    formControlName="Name" placeholder="Name"
+    />
+  </div>
+  <div class="form-group">
+    
+    <input #userAge type="text" class="form-control" 
+    formControlName="Age" placeholder="Age"
+    />
+    </div>
+    <div class="form-group">
+      <button type="button" class="btn btn-primary" (click)="addForm(userName.value,userAge.value)">Submit</button>
+    </div>
+</form>
+<p>{{clickMessage}}</p>
+<p>{{servicedata}}</p>
+
