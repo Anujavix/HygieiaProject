@@ -34,18 +34,17 @@ const _hash = (x) => crypto.createHash('sha512').update(x).digest('hex').toLower
 var encoder = new TextEncoder('utf8')
 var decoder = new TextDecoder('utf8')
 const MIN_VALUE = 0
-const CJ_FAMILY = 'cookiejar'
+const CJ_FAMILY = 'hygieia'
 const CJ_NAMESPACE = _hash(CJ_FAMILY).substring(0, 6)
 
 //function to obtain the payload obtained from the client
 const _decodeRequest = (payload) =>
   new Promise((resolve, reject) => {
     payload = payload.toString().split(',')
-    if (payload.length === 3) {
+    if (payload.length === 2) {
       resolve({
         action: payload[0],
-        type: payload[1],
-        quantity:payload[2]
+        type: payload[1]
       })
     }
    
@@ -100,21 +99,21 @@ const makeBake =(context, address, quantity, userPK)  => (possibleAddressValues)
 class CookieJarHandler extends TransactionHandler{
   constructor(){
     super(CJ_FAMILY,['1.0'],[CJ_NAMESPACE])
+    console.log("Inside js")
   }
   decodepayload(payload){
   
     var  payloadDecoded= {
       action:payload[0],
-      type: payload[1],
-      quantity:payload[2]
+      type: payload[1]
     }
     return payloadDecoded
   }
   apply(transacationProcessRequest, context){
+    console.log("HelloWorldlkfkhdkfshfgs!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 
   //payload decoding*****
 let payload = transacationProcessRequest.payload.toString().split(',')
-console.log("HelloWorldlkfkhdkfshfgs!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 let pl=this.decodepayload(payload);
 console.log(pl.action+","+pl.quantity+","+pl.type)
 

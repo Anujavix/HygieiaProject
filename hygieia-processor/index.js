@@ -18,11 +18,11 @@
   transaction processing requests to a registered handler,the CookieJarHandler.*/
  
 
-//'use strict'
+'use strict'
 //works in strict mode
 const { TransactionProcessor } = require('sawtooth-sdk/processor')
 //requires the module specified in ().
-//const CookieJarHandler = require('./CookieJarHandler')
+
 const HygieiaHandler= require('./HygieiaHandler')
 
 if (process.argv.length < 3) {
@@ -34,8 +34,8 @@ const address = process.argv[2]
 
 const transactionProcessor = new TransactionProcessor(address)
 
-//transactionProcessor.addHandler(new CookieJarHandler())
 transactionProcessor.addHandler(new HygieiaHandler())
+
  /*addHandler adds the given handler to the transaction processor so
    it can receive transaction processing requests. All handlers must
    be added prior to starting the processor.

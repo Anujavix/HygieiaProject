@@ -26,6 +26,7 @@ class HygieiaHandler extends TransactionHandler{
 
     constructor(){
       super(CJ_FAMILY,['1.0'],[CJ_NAMESPACE])
+      console.log("Inside construcotu")
     }
 
     decodepayload(payload){
@@ -38,9 +39,9 @@ class HygieiaHandler extends TransactionHandler{
       }
 
     apply(transacationProcessRequest,context){
-        
+      console.log("HelloWorldlkfkhdkfshfgs!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
              //payload decoding*****
-            let payload = transacationProcessRequest.payload.toString().split(',')
+           let payload = transacationProcessRequest.payload.toString().split(',')
             console.log("HelloWorldlkfkhdkfshfgs!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             let pl=this.decodepayload(payload);
             console.log(pl.bgroup+","+pl.part)
@@ -49,10 +50,11 @@ class HygieiaHandler extends TransactionHandler{
             let signerPk=transacationProcessRequest.header.signerPublicKey;
             console.log(signerPk.toString())
             const publicKeyHash= _hash(signerPk)
-            let address=_hash('hygieia').substring(0,6)+_hash(pl.part)+_hash(pl.bgroup)+publicKeyHash
-
+            let header=transacationProcessRequest.header
+            let pblckey=header.signerPublicKey//_hash('hygieia').substring(0,6)+_hash(pl.part)+_hash(pl.bgroup)+publicKeyHash
+            let address=_hash("hygieia").substr(0, 6) + _hash(pblckey).substr(0, 64);
             console.log(pl.bgroup+pl.part);
-
+            
 
             return context.getState([address])
             .then((currentStateMap)=>{
@@ -60,16 +62,38 @@ class HygieiaHandler extends TransactionHandler{
               var oldstate= decoder.decode(myState);
 
               if(myState == '' || myState == null) {  ///first time baking
-                newTxnId="";
-                newStatus="";
+                newTxnId="Txn001";
+                newStatus="Unmatched";
 
               } 
                else {
+                newTxnId="Txn001";
                  newStatus="Matched"
                     
               
               }
+               /* newTxnId=pl.part;
+                newStatus=pl.bgroup;
 
+                console.log("newQuantity",newStatus)  
+
+                console.log("",newStatus+":"+newTxnId)    
+                
+                
+                
+                console.log(stateData.Status+stateData.Txnid+"statedata")
+                console.log(JSON.stringify(stateData),"json")*/
+                var stateData={
+                  Status:newStatus,
+                  Txnid:newTxnId
+                
+                };
+                const mynewState = encoder.encode(JSON.stringify(stateData));
+                console.log("mynewState", mynewState);
+                const newStateMap = {
+                  [address]: mynewState
+                }
+                return context.setState(newStateMap);
 
             })
           

@@ -18,12 +18,12 @@ export class PageComponent implements OnInit {
   }
   ngOnInit() {
   }
-  addForm(userName:string,userAge:string){
+  async addForm(userName:string,userAge:string){
    // event.preventDefault();
    
     this.clickMessage="name+age"+userName+userAge;
     
-    const servDt =this.Form.sendData(userName,userAge);
+    const servDt =await this.Form.sendData(userName,userAge);
     
     this.servicedata="htis is service dAatta"+servDt;
     //+servDt.toString();
